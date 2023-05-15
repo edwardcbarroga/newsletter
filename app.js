@@ -4,8 +4,11 @@ const { subscribe } = require("diagnostics_channel");
 const express = require("express");
 const https = require("https");
 const app = express();
+require("dotenv").config();
 
-
+const MAPI_KEY = process.env.API_KEY;
+const MLIST_ID = process.env.LIST_ID;
+const MAPI_SERVER = process.env.API_SERVER;
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -37,10 +40,10 @@ app.post("/", function (req, res) {
     // res.send();
 
     const jsonData = JSON.stringify(data);
-    const url = "https://us21.api.mailchimp.com/3.0/lists/" + LIST_ID + "";
+    const url = "https://" + MAPI_SERVER + ".api.mailchimp.com/3.0/lists/" + MLIST_ID;
     const options = {
         method: "POST",
-        auth: "edward:" + API_KEY + ""
+        auth: "edward:" + MAPI_KEY
     }
 
     const request = https.request(url, options, function (response) {
